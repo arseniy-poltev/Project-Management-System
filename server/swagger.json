@@ -1,0 +1,417 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Project Management",
+    "version": "1.0.0",
+    "description": "Task Management System API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8100"
+    }
+  ],
+  "paths": {
+    "/auth/signup/": {
+      "post": {
+        "description": "sign up user to application",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "description": "sign up body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              },
+              "example": {
+                "email": "test.user@mail.com",
+                "password": "test_test"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user successfuly signed in",
+            "content": {
+              "appication/json": {
+                "example": {
+                  "status": 200,
+                  "logged": true,
+                  "message": "Sign in successfull!!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "sign in failed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "logged": false,
+                  "message": "Email already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/": {
+      "post": {
+        "description": "Login user to application",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "description": "login body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              },
+              "example": {
+                "email": "test.user@mail.com",
+                "password": "test_test"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user successfuly logged",
+            "content": {
+              "appication/json": {
+                "example": {
+                  "status": 200,
+                  "logged": true,
+                  "message": "Successfully logged!"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not logged, invalid credentials",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 401,
+                  "logged": false,
+                  "message": "Invalid credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users": {
+      "get": {
+        "description": "Get all stored users in Database",
+        "tags": [
+          "developers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Users"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create new User",
+        "tags": [
+          "developers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "user creation request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              },
+              "example": {
+                "name": "userName",
+                "email": "test.user@mail.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "return created user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/{id}": {
+      "get": {
+        "description": "Get user by userId",
+        "tags": [
+          "developers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the unique userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return user by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete user by userId",
+        "tags": [
+          "developers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the unique userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return deleted user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "update": {
+        "description": "Update user by userId",
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the unique userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "user update request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              },
+              "example": {
+                "name": "userName",
+                "email": "test.user@mail.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "return updated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserSchema"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserSchema": {
+        "required": [
+          "email",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "age": {
+            "type": "number"
+          },
+          "country": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "enum"
+          },
+          "is_admin": {
+            "type": "boolean"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "passwordResetToken": {
+            "type": "string"
+          },
+          "passwordResetExpires": {
+            "type": "string",
+            "format": "date"
+          },
+          "tokens": {
+            "type": "array"
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserSchema"
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "description": "Error description",
+            "example": "User created"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-access-token"
+      }
+    }
+  },
+  "tags": []
+}
