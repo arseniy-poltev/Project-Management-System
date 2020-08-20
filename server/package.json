@@ -32,7 +32,7 @@
   "dependencies": {
     "@types/asana": "^0.14.36",
     "asana": "^0.16.6",
-    "bcrypt": "3.0.4",
+    "bcrypt": "5.0.0",
     "body-parser": "1.18.2",
     "compression": "1.7.1",
     "cookie-parser": "1.4.3",
