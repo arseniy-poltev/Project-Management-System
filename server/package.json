@@ -73,7 +73,7 @@
     "chai": "4.2.0",
     "jsdoc": "3.5.5",
     "nodemon": "1.18.10",
-    "source-map-loader": "0.2.4",
+    "source-map-loader": "4.0.1",
     "supertest": "4.0.2",
     "swagger-jsdoc": "3.2.7",
     "swagger-ui-express": "4.0.2",
